@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create notes</title>
+</head>
+<body>
+    <div id="container">
+        <h1>Notes Creation Page</h1>
+        <input type="text" id="title
+        " placeholder="Enter title">
+         <input type="text" id="body" placeholder="Enter note body">
+         <button onclick="onAdd">Add</button>
+    </div>
+</body>
+</html>
+<script>
+     const onAdd=()=>{
+        const payload={
+            // name:document.getElementById("name").value,
+            title:document.getElementById("title").value,
+            body:document.getElementById("body").value
+
+        }
+        fetch("http://localhost:8080/notes/create",{
+            method:"POST",
+            headers:{
+                "content-type":"application/json",
+                "Authorization":localStorage.getItem("token")
+            },
+            body:JSON.stringify(payload)
+        })
+        .then(res=>res.json())
+        .then(res=>{
+            console.log(res)
+            localStorage.setItem("token",res.token)
+        })
+        .catch(err=>console.log(err))
+
+}
+</script>
